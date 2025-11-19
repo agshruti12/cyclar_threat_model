@@ -4,10 +4,12 @@ from typing import Dict, List, Tuple
 
 import cv2
 import numpy as np
+import math
 
 # Paths – adjust if needed
 VIDEO_PATH = "data/raw/sample_bike_ride.mp4"
 TRACKS_PATH = "data/processed/sample_bike_ride_tracks.json"
+TRACKS_RISK_JSON_PATH = "data/processed/sample_bike_ride_tracks_risk.json"
 
 BBox = Tuple[float, float, float, float]
 
@@ -15,7 +17,6 @@ BBox = Tuple[float, float, float, float]
 def load_tracks(path: str) -> List[dict]:
     with open(path, "r") as f:
         return json.load(f)
-
 
 def build_frame_to_tracks_index(tracks: List[dict]) -> Dict[int, List[Tuple[int, int]]]:
     """
@@ -50,6 +51,19 @@ def get_color_for_track(track_id: int) -> Tuple[int, int, int]:
     ]
     return palette[track_id % len(palette)]
 
+def danger_to_color(danger: float) -> Tuple[int, int, int]:
+    """
+    Map danger in [0,1] to BGR color:
+      0 -> green, 0.5 -> yellow, 1 -> red
+    """
+    danger = max(0.0, min(1.0, danger))
+    # interpolate between green (0,255,0) and red (0,0,255)
+    # or make mid = yellow
+    # simple: red = danger, green = 1-danger
+    r = int(255 * danger)
+    g = int(255 * (1.0 - danger))
+    b = 0
+    return (b, g, r)
 
 def visualize_tracks(
     video_path: str,
@@ -85,7 +99,13 @@ def visualize_tracks(
                 t = tracks[tid]
                 bbox = t["bboxes"][i_in_track]  # [x1, y1, x2, y2]
                 x1, y1, x2, y2 = map(int, bbox)
-                color = get_color_for_track(tid)
+                # color = get_color_for_track(tid)
+                # find danger for this frame if available
+                danger = 0.0
+                if "danger_scores" in t:
+                    danger = t["danger_scores"][i_in_track]
+
+                color = danger_to_color(danger)
 
                 # Draw bbox
                 cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
@@ -126,4 +146,6 @@ def visualize_tracks(
 
 
 if __name__ == "__main__":
-    visualize_tracks(VIDEO_PATH, TRACKS_PATH, max_frames=-1, show_trajectories=True)
+    # visualize_tracks(VIDEO_PATH, TRACKS_PATH, max_frames=-1, show_trajectories=True)
+    visualize_tracks(VIDEO_PATH, TRACKS_RISK_JSON_PATH, max_frames=-1, show_trajectories=True)
+

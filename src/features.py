@@ -1,30 +1,39 @@
+from typing import Any, List, Tuple, Dict
+import math
 import numpy as np
-from typing import Dict, Any, Tuple, List
-from .model_types import BBox
+
+BBox = Tuple[float, float, float, float]
+
 
 def bbox_area(b: BBox) -> float:
     return max(0.0, b[2] - b[0]) * max(0.0, b[3] - b[1])
+
 
 def bbox_center(b: BBox) -> Tuple[float, float]:
     cx = (b[0] + b[2]) / 2.0
     cy = (b[1] + b[3]) / 2.0
     return cx, cy
 
-def compute_track_features(track: Dict) -> Dict:
+
+def compute_track_features(
+    track: Dict,
+    frame_width: int,
+    frame_height: int,
+) -> Dict:
     """
     track: dict with keys track_id, cls_id, frame_indices, bboxes
-    Returns dict with same metadata plus per-frame features.
+    Returns a dict with the same metadata plus feature lists.
     """
     bboxes: List[BBox] = [tuple(b) for b in track["bboxes"]]
     frame_indices: List[int] = track["frame_indices"]
 
     areas: List[float] = []
     centers: List[Tuple[float, float]] = []
-    delta_areas: List[float] = []
+    centers_norm: List[Tuple[float, float]] = []
     delta_cx: List[float] = []
     delta_cy: List[float] = []
+    speed: List[float] = []  # pixel distance per frame
 
-    prev_area = None
     prev_cx = None
     prev_cy = None
 
@@ -33,21 +42,22 @@ def compute_track_features(track: Dict) -> Dict:
         cx, cy = bbox_center(b)
         areas.append(a)
         centers.append((cx, cy))
+        centers_norm.append((cx / frame_width, cy / frame_height))
 
-        if prev_area is None:
-            delta_areas.append(0.0)
+        if prev_cx is None:
             delta_cx.append(0.0)
             delta_cy.append(0.0)
+            speed.append(0.0)
         else:
-            delta_areas.append(a - prev_area)
-            delta_cx.append(cx - prev_cx)
-            delta_cy.append(cy - prev_cy)
+            dx = cx - prev_cx
+            dy = cy - prev_cy
+            delta_cx.append(dx)
+            delta_cy.append(dy)
+            speed.append(math.sqrt(dx * dx + dy * dy))
 
-        prev_area = a
         prev_cx = cx
         prev_cy = cy
 
-    # you can add more (normalized center, speed magnitude, etc.)
     return {
         "track_id": track["track_id"],
         "cls_id": track["cls_id"],
@@ -55,9 +65,10 @@ def compute_track_features(track: Dict) -> Dict:
         "bboxes": track["bboxes"],
         "areas": areas,
         "centers": centers,
-        "delta_areas": delta_areas,
+        "centers_norm": centers_norm,
         "delta_cx": delta_cx,
         "delta_cy": delta_cy,
+        "speed": speed,
     }
 
 
