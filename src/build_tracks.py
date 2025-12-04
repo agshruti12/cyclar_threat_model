@@ -3,7 +3,7 @@ from typing import List, Dict, Tuple
 from src.model_types import Track, BBox
 from dataclasses import asdict
 import os
-from features import compute_track_features
+from src.features import compute_track_features
 
 
 BBox = Tuple[float, float, float, float]

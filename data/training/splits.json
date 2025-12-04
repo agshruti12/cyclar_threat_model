@@ -1,0 +1,20 @@
+{
+  "train": [
+    "data/training/output_chunk_014_frame_data.npz",
+    "data/training/output_chunk_004_frame_data.npz",
+    "data/training/output_chunk_011_frame_data.npz",
+    "data/training/output_chunk_010_frame_data.npz",
+    "data/training/output_chunk_003_frame_data.npz",
+    "data/training/output_chunk_000_frame_data.npz",
+    "data/training/output_chunk_013_frame_data.npz"
+  ],
+  "val": [
+    "data/training/output_chunk_002_frame_data.npz",
+    "data/training/output_chunk_005_frame_data.npz"
+  ],
+  "test": [
+    "data/training/output_chunk_012_frame_data.npz",
+    "data/training/output_chunk_009_frame_data.npz",
+    "data/training/output_chunk_001_frame_data.npz"
+  ]
+}
