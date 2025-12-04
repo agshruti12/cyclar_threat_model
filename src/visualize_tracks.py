@@ -7,9 +7,9 @@ import numpy as np
 import math
 
 # Paths – adjust if needed
-VIDEO_PATH = "data/raw/sample_bike_ride.mp4"
-TRACKS_PATH = "data/processed/sample_bike_ride_tracks.json"
-TRACKS_RISK_JSON_PATH = "data/processed/sample_bike_ride_tracks_risk.json"
+VIDEO_PATH = "data/raw/output_chunk_001.mp4"
+TRACKS_PATH = "data/processed/output_chunk_001_tracks.json"
+TRACKS_RISK_JSON_PATH = "data/processed/output_chunk_001_tracks_risk.json"
 
 BBox = Tuple[float, float, float, float]
 

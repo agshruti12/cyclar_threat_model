@@ -7,7 +7,7 @@ import torch
 
 
 # For now, hardcode a video path
-VIDEO_PATH = "data/raw/sample_bike_ride.mp4"
+VIDEO_PATH = "data/raw/output_chunk_001.mp4"
 
 
 def load_model():
