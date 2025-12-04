@@ -150,7 +150,7 @@ if __name__ == "__main__":
     # Example: adapt this to loop over all your videos.
 
     # loop through output_chunk_009 to output_chunk_0014
-    for i in range(15):
+    for i in range(6,9):
         chunk_id = f"{i:03d}"
         example_tracks_features = f"data/processed/output_chunk_{chunk_id}_tracks_features.json"
         example_scene_labels = f"data/labels/output_chunk_{chunk_id}_scene_labels.json"
