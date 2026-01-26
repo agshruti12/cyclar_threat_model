@@ -1,0 +1,96 @@
+{
+  "video_path": "data/raw/part_007.mp4",
+  "fps": 59.96002664890073,
+  "frame_count": 614,
+  "segment_seconds": 1.0,
+  "segments": [
+    {
+      "segment_idx": 0,
+      "start_frame": 0,
+      "end_frame": 59,
+      "start_time_sec": 0.0,
+      "end_time_sec": 0.9839888888888889,
+      "label": 0
+    },
+    {
+      "segment_idx": 1,
+      "start_frame": 60,
+      "end_frame": 119,
+      "start_time_sec": 1.0006666666666668,
+      "end_time_sec": 1.9846555555555556,
+      "label": 0
+    },
+    {
+      "segment_idx": 2,
+      "start_frame": 120,
+      "end_frame": 179,
+      "start_time_sec": 2.0013333333333336,
+      "end_time_sec": 2.9853222222222224,
+      "label": 0
+    },
+    {
+      "segment_idx": 3,
+      "start_frame": 180,
+      "end_frame": 239,
+      "start_time_sec": 3.0020000000000002,
+      "end_time_sec": 3.985988888888889,
+      "label": 0
+    },
+    {
+      "segment_idx": 4,
+      "start_frame": 240,
+      "end_frame": 299,
+      "start_time_sec": 4.002666666666667,
+      "end_time_sec": 4.986655555555556,
+      "label": 1
+    },
+    {
+      "segment_idx": 5,
+      "start_frame": 300,
+      "end_frame": 359,
+      "start_time_sec": 5.003333333333334,
+      "end_time_sec": 5.987322222222223,
+      "label": 1
+    },
+    {
+      "segment_idx": 6,
+      "start_frame": 360,
+      "end_frame": 419,
+      "start_time_sec": 6.0040000000000004,
+      "end_time_sec": 6.987988888888889,
+      "label": 1
+    },
+    {
+      "segment_idx": 7,
+      "start_frame": 420,
+      "end_frame": 479,
+      "start_time_sec": 7.004666666666667,
+      "end_time_sec": 7.988655555555556,
+      "label": 0
+    },
+    {
+      "segment_idx": 8,
+      "start_frame": 480,
+      "end_frame": 539,
+      "start_time_sec": 8.005333333333335,
+      "end_time_sec": 8.989322222222222,
+      "label": 0
+    },
+    {
+      "segment_idx": 9,
+      "start_frame": 540,
+      "end_frame": 599,
+      "start_time_sec": 9.006,
+      "end_time_sec": 9.98998888888889,
+      "label": 0
+    },
+    {
+      "segment_idx": 10,
+      "start_frame": 600,
+      "end_frame": 613,
+      "start_time_sec": 10.006666666666668,
+      "end_time_sec": 10.223477777777779,
+      "label": 0
+    }
+  ]
+}
