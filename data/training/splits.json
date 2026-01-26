@@ -1,20 +1,28 @@
 {
   "train": [
-    "data/training/output_chunk_014_frame_data.npz",
-    "data/training/output_chunk_004_frame_data.npz",
-    "data/training/output_chunk_011_frame_data.npz",
-    "data/training/output_chunk_010_frame_data.npz",
-    "data/training/output_chunk_003_frame_data.npz",
-    "data/training/output_chunk_000_frame_data.npz",
-    "data/training/output_chunk_013_frame_data.npz"
+    "data/training/flipped_part_004_frame_data.npz",
+    "data/training/flipped_part_007_frame_data.npz",
+    "data/training/flipped_part_003_frame_data.npz",
+    "data/training/shruti_filming_1_frame_data.npz",
+    "data/training/flipped_part_002_frame_data.npz",
+    "data/training/part_003_frame_data.npz",
+    "data/training/flipped_part_006_frame_data.npz",
+    "data/training/part_000_frame_data.npz",
+    "data/training/flipped_part_005_frame_data.npz",
+    "data/training/sample_bike_ride_frame_data.npz",
+    "data/training/part_007_frame_data.npz",
+    "data/training/part_004_frame_data.npz"
   ],
   "val": [
-    "data/training/output_chunk_002_frame_data.npz",
-    "data/training/output_chunk_005_frame_data.npz"
+    "data/training/flipped_part_001_frame_data.npz",
+    "data/training/shruti_filming_0_frame_data.npz",
+    "data/training/flipped_part_000_frame_data.npz",
+    "data/training/part_002_frame_data.npz"
   ],
   "test": [
-    "data/training/output_chunk_012_frame_data.npz",
-    "data/training/output_chunk_009_frame_data.npz",
-    "data/training/output_chunk_001_frame_data.npz"
+    "data/training/flipped_shruti_filming_1_frame_data.npz",
+    "data/training/part_005_frame_data.npz",
+    "data/training/part_001_frame_data.npz",
+    "data/training/part_006_frame_data.npz"
   ]
 }

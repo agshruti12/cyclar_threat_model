@@ -4,8 +4,8 @@ import json
 import os
 from typing import List, Dict
 
-FEATURES_JSON_PATH = "data/processed/sample_bike_ride_tracks_features.json"
-RISK_JSON_PATH = "data/processed/sample_bike_ride_tracks_risk.json"
+FEATURES_JSON_PATH = "data/processed/output_chunk_006_tracks_features.json"
+RISK_JSON_PATH = "data/processed/output_chunk_006_tracks_risk.json"
 
 def load_features(path: str) -> List[Dict]:
     with open(path, "r") as f:
