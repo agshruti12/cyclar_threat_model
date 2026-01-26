@@ -1,6 +1,7 @@
 import json
 import os
 from typing import Dict, List
+from pathlib import Path
 
 import numpy as np
 
@@ -147,14 +148,45 @@ def process_video(
 
 
 if __name__ == "__main__":
-    # Example: adapt this to loop over all your videos.
 
-    # loop through output_chunk_009 to output_chunk_0014
-    for i in range(15):
-        chunk_id = f"{i:03d}"
-        example_tracks_features = f"data/processed/output_chunk_{chunk_id}_tracks_features.json"
-        example_scene_labels = f"data/labels/output_chunk_{chunk_id}_scene_labels.json"
-        out_npz = f"data/training/output_chunk_{chunk_id}_frame_data.npz"
+    raw_dir = Path("data/raw")
+    tracks_dir = Path("data/processed")
+    labels_dir = Path("data/labels")
+    out_dir = Path("data/training")
 
-        process_video(example_tracks_features, example_scene_labels, out_npz)
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    video_files = sorted(raw_dir.glob("*.mp4"))
+
+    if len(video_files) == 0:
+        raise RuntimeError("No .mp4 files found in data/raw")
+
+    print(f"Found {len(video_files)} raw videos")
+
+    for video_path in video_files:
+        video_name = video_path.stem  # e.g. "my_video"
+
+        tracks_features_path = tracks_dir / f"{video_name}_tracks_features.json"
+        scene_labels_path = labels_dir / f"{video_name}_scene_labels.json"
+        out_npz_path = out_dir / f"{video_name}_frame_data.npz"
+
+        if not tracks_features_path.exists():
+            print(f"[SKIP] Missing tracks features: {tracks_features_path}")
+            continue
+
+        if not scene_labels_path.exists():
+            print(f"[SKIP] Missing scene labels: {scene_labels_path}")
+            continue
+
+        print(f"Processing video: {video_name}")
+        print(f"  Tracks: {tracks_features_path}")
+        print(f"  Labels: {scene_labels_path}")
+        print(f"  Output: {out_npz_path}")
+
+        process_video(
+            str(tracks_features_path),
+            str(scene_labels_path),
+            str(out_npz_path)
+        )
+
     print("Done processing all videos.")
