@@ -2,16 +2,16 @@ import argparse
 import glob
 import os
 
-from src.detect_and_store import run_detection_on_video  # YOLO detections
-from src.io_utils import save_detections_json        # to save dets
+from src.first_model.detect_and_store import run_detection_on_video  # YOLO detections
+from src.first_model.io_utils import save_detections_json        # to save dets
 
-from src.build_tracks import load_detections, build_tracks, save_tracks  # tracking
-from src.save_track_features import (                                   # features
+from src.first_model.build_tracks import load_detections, build_tracks, save_tracks  # tracking
+from src.first_model.save_track_features import (                                   # features
     load_tracks as load_tracks_json,
     get_video_size,
     save_features,
 )
-from src.features import compute_track_features
+from src.first_model.features import compute_track_features
 
 
 def process_single_video(video_path: str, processed_dir: str = "data/processed") -> None:

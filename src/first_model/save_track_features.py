@@ -4,7 +4,7 @@ import json
 import os
 from typing import List, Dict
 import cv2
-from src.features import compute_track_features
+from src.first_model.features import compute_track_features
 
 TRACKS_JSON_PATH = "data/processed/sample_bike_ride_tracks.json"
 FEATURES_JSON_PATH = "data/processed/sample_bike_ride_tracks_features.json"
