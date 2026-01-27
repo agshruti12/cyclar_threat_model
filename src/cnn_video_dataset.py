@@ -130,7 +130,22 @@ class SegmentVideoDataset(Dataset):
             train: if True, uses train augmentations; else eval.
             drop_unlabeled: if True, ignores segments with label None.
         """
-        self.label_json_paths = label_json_paths
+        exclude_videos = ["data/labels/sample_bike_ride_scene_labels.json"]
+        # self.label_json_paths = label_json_paths
+
+        self.label_json_paths = []
+        
+        # Filter out JSON files that reference the excluded video paths
+        for lbl_path in label_json_paths:
+            with open(lbl_path, "r") as f:
+                data = json.load(f)
+                video_path = data["video_path"]
+
+                if video_path not in exclude_videos:
+                    self.label_json_paths.append(lbl_path)
+                else:
+                    print(f"Skipping video: {video_path}")  # Optionally log the skipped videos
+
         self.frames_per_segment = frames_per_segment
         self.train = train
 
