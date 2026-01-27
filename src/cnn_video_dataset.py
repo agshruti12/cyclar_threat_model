@@ -152,10 +152,18 @@ class SegmentVideoDataset(Dataset):
         )
 
     def _build_samples(self, drop_unlabeled: bool = True):
+        # temp exclude sample_bike_ride
+        exclude_videos = ["data/raw/sample_bike_ride.mp4"]
+
         for lbl_path in self.label_json_paths:
             data = load_label_file(lbl_path)
             video_path = data["video_path"]
             segments = data["segments"]
+
+            # Skip if the video is in the excluded list
+            if video_path in exclude_videos:
+                print(f"Skipping video: {video_path}")
+                continue
 
             for seg in segments:
                 label = seg["label"]
