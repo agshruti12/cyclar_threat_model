@@ -97,7 +97,9 @@ def run_inference_on_npz(
         return frame_preds, frame_probs, fps, frame_count, video_path
 
     X = np.stack(xs, axis=0)   # (num_windows, T, F)
-    X_tensor = torch.from_numpy(X).float().to(device)
+    X = np.asarray(X, dtype=np.float32)      # ensure numeric ndarray
+    X = np.ascontiguousarray(X)             # ensure contiguous memory
+    X_tensor = torch.tensor(X, dtype=torch.float32, device=device)
 
     with torch.no_grad():
         logits = model(X_tensor)           # (num_windows, 3)
