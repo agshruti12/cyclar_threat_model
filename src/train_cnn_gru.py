@@ -17,6 +17,92 @@ from cnn_video_dataset import SegmentVideoDataset
 from cnn_gru_model import CNNGRUDangerModel
 
 
+def _guess_video_from_label_json(label_json_path: str) -> str:
+    """
+    Best-effort mapping from '*_scene_labels.json' -> video filename.
+    Adjust extensions / directory rules if your dataset differs.
+    """
+    base = os.path.basename(label_json_path)
+    stem = base.replace("_scene_labels.json", "")
+    # Common guesses; keep first as a "name" even if path unknown
+    return stem  # just the stem; dataset-derived paths are preferred
+
+
+def extract_video_names_from_dataset(dataset: SegmentVideoDataset) -> List[str]:
+    """
+    Try to pull video identifiers from dataset.samples if available.
+    Falls back to label_json_paths guessing.
+    """
+    names = set()
+
+    # 1) Try to extract from dataset.samples (most reliable if present)
+    sample_keys_to_try = [
+        "video_path", "video_file", "video", "mp4_path", "path"
+    ]
+    if hasattr(dataset, "samples"):
+        for s in dataset.samples:
+            for k in sample_keys_to_try:
+                if k in s and s[k]:
+                    names.add(os.path.basename(str(s[k])))
+                    break
+
+    # 2) Fallback: guess from label json list stored on dataset (if present)
+    if not names:
+        for attr in ["label_json_paths", "label_paths", "labels"]:
+            if hasattr(dataset, attr):
+                for p in getattr(dataset, attr):
+                    names.add(_guess_video_from_label_json(str(p)))
+                break
+
+    return sorted(names)
+
+
+def log_training_videos(
+    train_files: List[str],
+    val_files: List[str],
+    train_dataset: SegmentVideoDataset,
+    val_dataset: SegmentVideoDataset,
+    out_txt_path: str = "models/training_videos_used.txt",
+) -> None:
+    """
+    Print and save which videos (or video-ids) are used for train/val splits.
+    Saves both: (a) raw label json filenames and (b) inferred/known video names.
+    """
+    os.makedirs(os.path.dirname(out_txt_path) or ".", exist_ok=True)
+
+    train_video_names = extract_video_names_from_dataset(train_dataset)
+    val_video_names = extract_video_names_from_dataset(val_dataset)
+
+    # Console print
+    print("\n=== Videos used (TRAIN split) ===")
+    for v in train_video_names:
+        print("  ", v)
+
+    print("\n=== Videos used (VAL split) ===")
+    for v in val_video_names:
+        print("  ", v)
+
+    # Write file
+    with open(out_txt_path, "w", encoding="utf-8") as f:
+        f.write("TRAIN LABEL JSON FILES:\n")
+        for p in train_files:
+            f.write(f"{p}\n")
+
+        f.write("\nVAL LABEL JSON FILES:\n")
+        for p in val_files:
+            f.write(f"{p}\n")
+
+        f.write("\nTRAIN VIDEO NAMES (best-effort):\n")
+        for v in train_video_names:
+            f.write(f"{v}\n")
+
+        f.write("\nVAL VIDEO NAMES (best-effort):\n")
+        for v in val_video_names:
+            f.write(f"{v}\n")
+
+    print(f"\nSaved training/val video list to: {out_txt_path}\n")
+
+
 def find_label_files(labels_dir: str) -> List[str]:
     pattern = os.path.join(labels_dir, "*_scene_labels.json")
     files = sorted(glob.glob(pattern))
@@ -110,6 +196,16 @@ def train(
 
     print(f"Train segments: {len(train_dataset.samples)}")
     print(f"Val segments:   {len(val_dataset.samples)}")
+
+    # ---- log which videos we trained/validated on ----
+    log_training_videos(
+        train_files=train_files,
+        val_files=val_files,
+        train_dataset=train_dataset,
+        val_dataset=val_dataset,
+        out_txt_path="models/training_videos_used.txt",
+    )
+
 
     # ---- class counts & sampler ----
     class_counts = compute_class_counts(train_dataset)
