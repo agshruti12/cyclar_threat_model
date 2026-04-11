@@ -1,0 +1,29 @@
+
+
+Instructions:
+1. Look through your videos first, if there are videos that seem to pose no value 
+(i.e. completely empty road, we're on the sidewalk the entire time, very jittery, then ignore them).
+2. Drag the remaining videos into dataset/videos
+3. For each video, run the commands under "To generate labels + detections for a video file." 
+Ensure to replace the VIDEO value to be the path to your video. 
+4. Do this for each video, ensuring that you update VIDEO environment variable each time. 
+
+LOW danger --> Not in adjacent lane, extreme far away. 
+MED danger --> In adjacent lane, approaching steadily and/or fairly close to biker. 
+HIGH danger --> In adjacent lane, approaching fast and/or very close to biker. 
+
+To generate labels + detections for a video file: Run these 3 commands
+
+1. VIDEO=dataset/videos/cyclar_data_24.mp4
+2. BASENAME=$(basename "$VIDEO" .mp4)
+3. python dense_track_annotator.py \
+  --video "$VIDEO" \
+  --model yolov8s.pt \
+  --detections_csv "dataset/detections/${BASENAME}_detections.csv" \
+  --labels_csv "dataset/labels/${BASENAME}_labels.csv" \
+  --sample_every 6 \
+  --clip_radius 6 \
+  --imgsz 640 \
+  --conf 0.40 \
+  --small_box_area_thresh 1200 \
+  --small_box_height_thresh 200

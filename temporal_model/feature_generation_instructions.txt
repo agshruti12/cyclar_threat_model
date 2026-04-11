@@ -1,0 +1,18 @@
+
+To generate features for a given file:
+
+  python build_features_per_video.py \
+  --detections_dir dataset/detections/ \
+  --labels_dir dataset/labels/ \
+  --out_dir dataset/features/ \
+  --queue_len 24 \
+  --sample_every 6 \
+  --ema_alpha 0.3 \
+  --stale_after_frames 30
+
+
+To concat all feature CSVs:
+
+python concat_feature_csvs.py \
+  --features_dir features/ \
+  --out object_features_train.csv
