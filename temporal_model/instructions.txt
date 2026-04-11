@@ -7,6 +7,7 @@ Instructions:
 3. For each video, run the commands under "To generate labels + detections for a video file." 
 Ensure to replace the VIDEO value to be the path to your video. 
 4. Do this for each video, ensuring that you update VIDEO environment variable each time. 
+5. git add ., git commit -m "<name> labelling", git push
 
 LOW danger --> Not in adjacent lane, extreme far away. 
 MED danger --> In adjacent lane, approaching steadily and/or fairly close to biker. 
