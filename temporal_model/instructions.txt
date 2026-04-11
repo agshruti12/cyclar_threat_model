@@ -27,4 +27,4 @@ To generate labels + detections for a video file: Run these 3 commands
   --imgsz 640 \
   --conf 0.40 \
   --small_box_area_thresh 1200 \
-  --small_box_height_thresh 200
+  --small_box_height_thresh 150

@@ -1,0 +1,7 @@
+run_id,video_id,frame_idx,track_id,label
+119be441f130,cyclar_data_32,108,13,1
+119be441f130,cyclar_data_32,114,13,1
+119be441f130,cyclar_data_32,120,13,2
+119be441f130,cyclar_data_32,120,41,0
+119be441f130,cyclar_data_32,126,41,0
+119be441f130,cyclar_data_32,132,41,0
